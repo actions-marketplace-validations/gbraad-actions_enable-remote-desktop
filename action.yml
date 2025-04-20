@@ -1,0 +1,12 @@
+name: 'Enable RDP'
+description: 'A GitHub Action to enable Remote Desktop Protocol (RDP) on a Windows machine.'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Enable RDP
+      shell: powershell
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server' -name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
